@@ -24,22 +24,36 @@
 window.addEventListener("load", setUpCart);
 
 function setUpCart() {
-      var addButtons = document.querySelectorAll(".addButton");
+      var addButtons = document.getElementsByClassName("addButton");
       for (var i = 0; i < addButtons.length; i++) {
-            addButtons.addEventListener("click", addItem());
+            addButtons[i].addEventListener("click", addItem);
       }
 }
 
 function addItem(e) {
       var foodItem = e.target.nextElementSibling;
-      var foodId = e.target.id;
-      var foodDescription = foodItem.cloneNode();
+      var foodId = foodItem.id;
+      var foodDescription = foodItem.cloneNode(true);
       var cartBox = document.getElementById("cart");
       var duplicateOrder = false;
       for (var i = 0; i < cartBox.childNodes; i++) {
-            if (i === foodId) {
-                  count += 1;
+            console.log("your in");
+            if (cartBox.childNodes[i] === foodId) {
+                  cartBox.childNodes[i].firstChild.textContent += 1;
+                  duplicateOrder = true;
+                  console.log("your in");
+                  break;
             }
-
       }
+      if (duplicateOrder === false) {
+            var orderCount = document.createElement("span");
+            orderCount.textContent = 1;
+            foodDescription.prepend(orderCount);
+            cartBox.appendChild(foodDescription);
+            duplicateOrder = true;
+      }
+      console.log(cartBox.childNodes);
+      console.log(orderCount.textContent);
+      console.log(foodId);
+      console.log(cartBox.childNodes.id);
 }
