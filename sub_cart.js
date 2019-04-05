@@ -21,39 +21,45 @@
       the customer.
 
 */
+//This calls in the setUpCart function on window load
 window.addEventListener("load", setUpCart);
 
 function setUpCart() {
+      //This creates an array of all the elemenets with addButton class
       var addButtons = document.getElementsByClassName("addButton");
+      //This adds add item function to everything in the array made above
       for (var i = 0; i < addButtons.length; i++) {
-            addButtons[i].addEventListener("click", addItem);
+            addButtons[i].onclick = addItem;
       }
 }
 
 function addItem(e) {
+      //This gets the picture and the div instead of the button
       var foodItem = e.target.nextElementSibling;
-      var foodId = foodItem.id;
+      //this gets the id of the of the div with the order in it
+      var foodID = foodItem.getAttribute("id");
+      //this clones the div with the order in it
       var foodDescription = foodItem.cloneNode(true);
+
+      //this gets the cart
       var cartBox = document.getElementById("cart");
+      //this stops the if statment from running more
       var duplicateOrder = false;
-      for (var i = 0; i < cartBox.childNodes; i++) {
-            console.log("your in");
-            if (cartBox.childNodes[i] === foodId) {
-                  cartBox.childNodes[i].firstChild.textContent += 1;
+      for (var n = cartBox.firstElementChild; n = n.nextElementSibling; n !== null) {
+            //this adds one to the span that is created below
+            if (n.id === foodID) {
                   duplicateOrder = true;
-                  console.log("your in");
+                  n.firstElementChild.textContent++;
                   break;
             }
       }
+      //this creates a span with the number of orders of a particular item in it at a time
       if (duplicateOrder === false) {
             var orderCount = document.createElement("span");
-            orderCount.textContent = 1;
+            orderCount.textContent = "1";
+            //this sets the span to be the first child of the duplicated div
             foodDescription.prepend(orderCount);
+            //this adds in the duplicated div
             cartBox.appendChild(foodDescription);
-            duplicateOrder = true;
       }
-      console.log(cartBox.childNodes);
-      console.log(orderCount.textContent);
-      console.log(foodId);
-      console.log(cartBox.childNodes.id);
 }
